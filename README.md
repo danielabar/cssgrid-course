@@ -216,3 +216,78 @@ Given `grid-auto-flow: column`, then can also use `grid-auto-columns: 200px;` to
 Similar to `flex-direction` in Flexbox.
 
 ## Sizing Tracks
+
+[Example](07%20-%20Sizing%20tracks%20in%20CSS%20Grid/sizing-tracks-START.html)
+
+Trying to use percentage sizing on columns will create some horizontal scroll, due to gaps, eg:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+```
+
+A better approach is `fr` (fractional) unit. fr represents the amount of space left *after* all elements are laid out. eg,
+below will use 100% of remaining width for 3rd column, after first two columns of 200px each are laid out.
+
+```css
+.container {
+  ...
+  grid-template-columns: 200px 200px 1fr;
+}
+```
+
+Below will first lay out first column of 200px, then divide remaining space equally between 2nd and 3rd columns.
+
+```css
+.container {
+  ...
+  grid-template-columns: 200px 1fr 1fr;
+}
+```
+
+`fr` units work similarly to `flex-grow` and `flex-shrink` in Flexbox. i.e. `fr` units are in *proportion* to how much free space is left.
+
+Below, 2nd column will get twice as much of the free space left as first column.
+
+```css
+.container {
+  ...
+  grid-template-columns: 200px 2fr 1fr;
+}
+```
+
+If want all columns evenly distributed across free space, don't use pixels at all, use `fr` units:
+
+```css
+.container {
+  ...
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+```
+
+Note adding `grid-template-rows: 1fr 1fr 1fr 1fr;` won't immediately change anything. Because default `height` of grid is however high the content is, but default width is viewport width.
+
+To see effect of `grid-template-rows`, can add explicit height to grid, in this case 2nd row will take up 10x more free space than the others, distributed across a height of 600px, minus grid gap:
+
+```css
+.container {
+  height: 600px;
+  border: 10px solid var(--yellow);
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 10fr 1fr 1fr;
+}
+```
+
+Can also use `auto` keyword combined with `fr`. `auto` will adjust column to max size of the content (i.e. ALL items in the column will get wider), then `1fr` will use all of the remaining free space:
+
+```css
+.container {
+  ...
+  grid-template-columns: auto 1fr;
+}
+```
