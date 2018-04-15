@@ -291,3 +291,43 @@ Can also use `auto` keyword combined with `fr`. `auto` will adjust column to max
   grid-template-columns: auto 1fr;
 }
 ```
+
+## Repeat Function
+
+[Example](08%20-%20CSS%20Grid%20repeat%20function/repeat-START.html)
+
+Instead of specifying `1fr` four times to get four columns:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+```
+
+Use `repeat` function to specify how many times you want to repeat and what should be repeated, eg:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+```
+
+To get 8 columns alternating between `1fr` and `2fr`:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr 2fr);
+}
+```
+
+Can mix and match regular columns with repeat function:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 100px repeat(2, 1fr auto) 200px;
+}
+```
