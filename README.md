@@ -51,20 +51,22 @@ Rows/cols are *tracks*. Content can be laid out within tracks without css positi
 Emmet trick to get 10 divs with values 1 through 10 inside of them:
 
 ```
-.item{$}*10
+.container>.item{$}*10
 ```
 
 ```html
-<div class="item">1</div>
-<div class="item">2</div>
-<div class="item">3</div>
-<div class="item">4</div>
-<div class="item">5</div>
-<div class="item">6</div>
-<div class="item">7</div>
-<div class="item">8</div>
-<div class="item">9</div>
-<div class="item">10</div>
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+  <div class="item">6</div>
+  <div class="item">7</div>
+  <div class="item">8</div>
+  <div class="item">9</div>
+  <div class="item">10</div>
+</div>
 ```
 
 When putting `display: grid` on a div (container), all its direct children become css grid item (no need to add display property on the direct children).
@@ -78,9 +80,21 @@ Define columns, for example to specify 3 columns each of width 100px:
 }
 ```
 
+![three cols](assets/images/three-cols.png)
+
 Rows are automatically created as child items fill up the columns (more on *implicit grid* later).
 
 `grid-gap: 20px` will add space between each column and row. Similar to margin, adds space between each *track*.
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 100px 100px 100px;
+}
+```
+
+![gap](assets/images/gap.png "gap")
 
 If column width is defined as wider than content inside it, by default, items inside will stretch to column width.
 
@@ -91,9 +105,12 @@ Can also use `auto` for column widths:
 ```css
 .container {
   display: grid;
+  grid-gap: 20px;
   grid-template-columns: 100px auto 500px 50px;
 }
 ```
+
+![auto col](assets/images/auto-col "auto col")
 
 Second column will automatically take up whatever leftover space after the fixed width columns are laid out. Can use for fluid/responsive layout. Good for common layout such as fixed sidebar (eg: 300px), then main content area, "the rest" of the view.
 
@@ -102,18 +119,24 @@ Can use `repeat` function, for eg: 5 columns of 100px each:
 ```css
 .container {
   display: grid;
+  grid-gap: 20px;
   grid-template-columns: repeat(5, 100px);
 }
 ```
+
+![repeat 5 100](assets/images/repeat-5-100.png)
 
 Can also specify rows:
 
 ```css
 .container {
   display: grid;
-  grid-template-rows: 200px 100px 400px;
+  grid-gap: 20px;
+  grid-template-rows: 100px 50px 200px;
 }
 ```
+
+![rows no cols](assets/images/rows-no-cols.png)
 
 Note this will make items go all the way across because there are no more columns specified. If you don't specify number of columns, then only get one.
 
@@ -237,19 +260,31 @@ below will use 100% of remaining width for 3rd column, after first two columns o
 
 ```css
 .container {
-  ...
-  grid-template-columns: 200px 200px 1fr;
+  .container {
+    height: 600px;
+    border: 10px solid var(--yellow);
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 200px 200px 1fr;
+  }
 }
 ```
+
+![one fr](assets/images/one-fr.png "one fr")
 
 Below will first lay out first column of 200px, then divide remaining space equally between 2nd and 3rd columns.
 
 ```css
 .container {
-  ...
+  height: 600px;
+  border: 10px solid var(--yellow);
+  display: grid;
+  grid-gap: 20px;
   grid-template-columns: 200px 1fr 1fr;
 }
 ```
+
+![one fr one fr](assets/images/one-fr-one-fr.png "one fr one fr")
 
 `fr` units work similarly to `flex-grow` and `flex-shrink` in Flexbox. i.e. `fr` units are in *proportion* to how much free space is left.
 
@@ -257,19 +292,29 @@ Below, 2nd column will get twice as much of the free space left as first column.
 
 ```css
 .container {
-  ...
+  height: 600px;
+  border: 10px solid var(--yellow);
+  display: grid;
+  grid-gap: 20px;
   grid-template-columns: 200px 2fr 1fr;
 }
 ```
+
+![two-fr-one-fr.png](assets/images/two-fr-one-fr.png "two fr one fr")
 
 If want all columns evenly distributed across free space, don't use pixels at all, use `fr` units:
 
 ```css
 .container {
-  ...
+  height: 600px;
+  border: 10px solid var(--yellow);
+  display: grid;
+  grid-gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 ```
+
+![cols even](assets/images/cols-even.png "cols even")
 
 Note adding `grid-template-rows: 1fr 1fr 1fr 1fr;` won't immediately change anything. Because default `height` of grid is however high the content is, but default width is viewport width.
 
@@ -282,7 +327,7 @@ To see effect of `grid-template-rows`, can add explicit height to grid, in this 
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 10fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 ```
 
@@ -290,10 +335,16 @@ Can also use `auto` keyword combined with `fr`. `auto` will adjust column to max
 
 ```css
 .container {
-  ...
-  grid-template-columns: auto 1fr;
+  .container {
+    border: 10px solid var(--yellow);
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: auto 1fr;
+  }
 }
 ```
+
+![col auto 1fr](assets/images/col-auto-1fr.png "col auto 1fr")
 
 ## Repeat Function
 
