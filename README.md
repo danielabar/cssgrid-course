@@ -9,6 +9,8 @@
   - [Implicit vs Explicit Tracks](#implicit-vs-explicit-tracks)
   - [Grid auto-flow Explained](#grid-auto-flow-explained)
   - [Sizing Tracks](#sizing-tracks)
+  - [Repeat Function](#repeat-function)
+  - [Sizing Grid Items](#sizing-grid-items)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -314,6 +316,8 @@ Use `repeat` function to specify how many times you want to repeat and what shou
 }
 ```
 
+![repeat 4](assets/images/repeat-4.png "repeat 4")
+
 To get 8 columns alternating between `1fr` and `2fr`:
 
 ```css
@@ -323,6 +327,8 @@ To get 8 columns alternating between `1fr` and `2fr`:
 }
 ```
 
+![repeat 8](assets/images/repeat-8.png "repeat 8")
+
 Can mix and match regular columns with repeat function:
 
 ```css
@@ -331,3 +337,69 @@ Can mix and match regular columns with repeat function:
   grid-template-columns: 100px repeat(2, 1fr auto) 200px;
 }
 ```
+
+## Sizing Grid Items
+
+[Example](09%20-%20Sizing%20Grid%20Items/sizing-items-START.html)
+
+Setting an explicit width on an item within a grid (or placing longer content in it) will make the entire column that wide, not just that item:
+
+```css
+.item9 {
+  background: mistyrose;
+  width: 500px;
+}
+```
+
+![width 500](assets/images/width-500.png "width 500")
+
+To only affect a single item, use *spanning*, to tell an item to be a specific width. eg, for a single item in a grid to take up two columns: Will start where it naturally starts and then flow into next slot:
+
+```css
+.item9 {
+  background: mistyrose;
+  grid-column: span 2;
+}
+```
+
+![span 2](assets/images/span-2.png "span 2")
+
+If you set span to value greater than there is space on that row, it will bump item down to next row and leave a gap:
+
+```css
+.item9 {
+  background: mistyrose;
+  grid-column: span 2;
+}
+```
+
+![span 3](assets/images/span-3.png "span 3")
+
+Can also span rows:
+
+```css
+.item9 {
+  background: mistyrose;
+  grid-column: span 2;
+  grid-row: span 2;
+}
+```
+
+![span row col](assets/images/span-row-col.png)
+
+If you span more columns than are available, will force grid to be larger. eg: 5 column grid, but span 10:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.item9 {
+  background: mistyrose;
+  grid-column: span 10;
+}
+```
+
+![col 5 span 10](assets/images/col-5-span-10.png "col 5 span 10")
