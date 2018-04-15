@@ -7,6 +7,7 @@
   - [CSS Grid Fundamentals](#css-grid-fundamentals)
   - [CSS Grid Dev Tools](#css-grid-dev-tools)
   - [Implicit vs Explicit Tracks](#implicit-vs-explicit-tracks)
+  - [Grid auto-flow Explained](#grid-auto-flow-explained)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -140,3 +141,67 @@ Notice there are different kinds of lines:
 - Dotted lines: Implicit track (eg: if only have columns but enough items that it creates new rows, those are implicit)
 
 ## Implicit vs Explicit Tracks
+
+In the example below, there are *explicitly* defined columns, but rows have not, therefore the rows are *implicit*:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 200px 400px;
+}
+```
+
+So if html has more than two grid items to be placed in the grid container, for eg:
+
+```html
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+</div>
+```
+
+Browser will place:
+- first item in first column (explicit)
+- second item in second column (explicit)
+- third item gets wrapped, creating a second row (implicit)
+- fourth item gets wrapped, creating second row, (implicit)
+
+Note how the dotted lines in dev tools for implicit change to dashed lines for explicit if css is modified to also explicitly define rows:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 200px 400px;
+  grid-template-rows: 100px 200px;
+}
+```
+
+If more items are added than can fill the explicit grid, will expand grid beyond the explict end point (solid line), and create an implicit row to place the additional items.
+
+To size implicity created rows:
+
+```css
+.container {
+  ...
+  grid-auto-rows: 500px;
+}
+```
+
+Note: Open FF issue - unable to define size of multiple implicit rows, this will get crossed out, but it does work in Chrome:
+
+```css
+.container {
+  ...
+  grid-auto-rows: 500px 200px;
+}
+```
+
+Also have `grid-auto-columns: 100px;`
+
+But just adding that doesn't do anything in this example. By default, define explicit columns, and any extra items are turned into rows. `grid-auto-flow` can change this behaviour (more in next section).
+
+## Grid auto-flow Explained
