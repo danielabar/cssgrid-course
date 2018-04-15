@@ -8,6 +8,7 @@
   - [CSS Grid Dev Tools](#css-grid-dev-tools)
   - [Implicit vs Explicit Tracks](#implicit-vs-explicit-tracks)
   - [Grid auto-flow Explained](#grid-auto-flow-explained)
+  - [Sizing Tracks](#sizing-tracks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -205,3 +206,13 @@ Also have `grid-auto-columns: 100px;`
 But just adding that doesn't do anything in this example. By default, define explicit columns, and any extra items are turned into rows. `grid-auto-flow` can change this behaviour (more in next section).
 
 ## Grid auto-flow Explained
+
+[Example](06%20-%20CSS%20grid-auto-flow%20Explained/autoflow-START.html)
+
+Set whether another row or column should be added after explicit items have been laid out and getting into implicit items. Default is `grid-auto-flow: row`. Then additional items create new implicit rows. But `grid-auto-flow: column` will place additional items in new columns (enough new columns will scroll horizontally).
+
+Given `grid-auto-flow: column`, then can also use `grid-auto-columns: 200px;` to specify how wide implicitly created columns should be.
+
+Similar to `flex-direction` in Flexbox.
+
+## Sizing Tracks

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/style.css">
+  <title>CSS grid-auto-flow Explained!</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">1E</div>
+    <div class="item">2E</div>
+    <div class="item">3E</div>
+    <div class="item">4E</div>
+    <div class="item">5E</div>
+    <div class="item">6E</div>
+    <div class="item">7E</div>
+    <div class="item">8E</div>
+    <div class="item">9E</div>
+    <div class="item">10E</div>
+  </div>
+
+  <style>
+    .container {
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: 400px 200px;
+      grid-auto-flow: column;
+      grid-auto-columns: 200px;
+    }
+  </style>
+</body>
+
+</html>
