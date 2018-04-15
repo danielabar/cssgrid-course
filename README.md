@@ -6,6 +6,7 @@
   - [Setup](#setup)
   - [CSS Grid Fundamentals](#css-grid-fundamentals)
   - [CSS Grid Dev Tools](#css-grid-dev-tools)
+  - [Implicit vs Explicit Tracks](#implicit-vs-explicit-tracks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -112,3 +113,30 @@ Can also specify rows:
 Note this will make items go all the way across because there are no more columns specified. If you don't specify number of columns, then only get one.
 
 ## CSS Grid Dev Tools
+
+[Example](04%20-%20CSS%20Grid%20Dev%20Tools/dev-tools-START.html)
+
+Difficult to visualize because grid parts such as columns, rows, tracks, gaps etc are not DOM elements so they can't be inspected like regular DOM elements.
+
+Right-click to inspect grid element. In Rules tab where `display: grid` is shown, can click on grid icon to toggle CSS Grid Highlighter.
+
+Also on Layout tab, shows all the grids. Clicking the checkbox beside the grid in Layout tab will also toggle CSS Grid Highlighter.
+Displays lines overlapping on grid. Displays where tracks are.
+
+In Grid Display Settings:
+- always check `Display line numbers` - shows row and column numbers as tags,
+- `Display area names` - we don't have any yet, will get to that later.
+- `Extend lines infinitely` - extends track lines to end of viewport, can be difficult to see on top of what you already have, but can modify the line colors by clicking on color circle beside grid item in Layout tab. Easiest to see in most layouts is black.
+
+To distinguish various patterns in the lines (can be subtle), use Mac zoom accessibility (Cmd Option +/-) to zoom entire display in/out.
+
+Note if create a grid with two columns, numbered labels from dev tools will show: 1, 2, 3. Tracks are numbered not by column/row itself, but by lines that start and stop them, so will always be one more number displayed than actual number of columns or rows.
+
+Notice there are different kinds of lines:
+
+- Solid line: Start and stop of *explicit* grid.
+- Dashed diagonal line: Gaps
+- Dashed line: Explicit track (eg: dark dashed lines going vertical are explicitly created columns)
+- Dotted lines: Implicit track (eg: if only have columns but enough items that it creates new rows, those are implicit)
+
+## Implicit vs Explicit Tracks
