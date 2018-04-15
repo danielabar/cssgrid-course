@@ -11,6 +11,7 @@
   - [Sizing Tracks](#sizing-tracks)
   - [Repeat Function](#repeat-function)
   - [Sizing Grid Items](#sizing-grid-items)
+  - [Placing Grid items](#placing-grid-items)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -403,3 +404,106 @@ If you span more columns than are available, will force grid to be larger. eg: 5
 ```
 
 ![col 5 span 10](assets/images/col-5-span-10.png "col 5 span 10")
+
+## Placing Grid items
+
+[Example](10%20-%20Placing%20Grid%20Items/placing-START.html)
+
+`grid-column: span 2` is actually shorthand of two values: `grid-column-start: span 2` and `grid-column-end: auto`.
+
+To specify `grid-column-start` and end explicitly, can use *track values.* For example, to start a particular item at column 2, it will layout all the items before it, then start the item at 2:
+
+```css
+.poop {
+  grid-column-start: 2;
+  background: #BADA55;
+}
+```
+
+![col start 2](assets/images/col-start-2.png "col start 2")
+
+Can also specify end:
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column-start: 2;
+  grid-column-end: 5;
+}
+```
+
+![col start 2 end 5](assets/images/col-start-2-end-5.png "col start 2 end 5")
+
+Short hand version of start/end:
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column: 2 / 5;
+}
+```
+
+Can also combine start/end with span, eg: start at track 2 and then span for 2 columns:
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column: 2 / span 2;
+}
+```
+
+![col start 2 span 2](assets/images/col-start-2-span-2.png "col start 2 span 2")
+
+If don't know how many tracks there will be, can specify to end at last track, eg: start at 1 and go to end (roughly like width: 100%)
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column: 1 / -1;
+}
+```
+
+![col start to end](assets/images/col-start-to-end.png "col start to end")
+
+To go to second last track, use `-2`:
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column: 1 / -2;
+}
+```
+
+![col start to second last](assets/images/col-start-to-second-last.png "col start to second last")
+
+Can mix and match this with rows:
+
+```css
+.poop {
+  background: #BADA55;
+  grid-column: 1 / -4;
+  grid-row: 3 / span 3;
+}
+```
+
+![place col and row](assets/images/place-col-and-row.png "place col and row")
+
+Note that `-1` for `grid-row` will only go to end of *explicit* grid (in this example, 5 rows):
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.poop {
+  background: #BADA55;
+  grid-column: span 2;
+  grid-row: 1 / -1;
+}
+```
+
+![row to end](assets/images/row-to-end.png "row to end")
+
