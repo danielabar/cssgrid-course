@@ -110,7 +110,7 @@ Can also use `auto` for column widths:
 }
 ```
 
-![auto col](assets/images/auto-col "auto col")
+![auto col](assets/images/auto-col.png "auto col")
 
 Second column will automatically take up whatever leftover space after the fixed width columns are laid out. Can use for fluid/responsive layout. Good for common layout such as fixed sidebar (eg: 300px), then main content area, "the rest" of the view.
 
