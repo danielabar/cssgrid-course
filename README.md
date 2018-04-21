@@ -12,6 +12,7 @@
   - [Repeat Function](#repeat-function)
   - [Sizing Grid Items](#sizing-grid-items)
   - [Placing Grid items](#placing-grid-items)
+  - [Spanning and Placing Cardio](#spanning-and-placing-cardio)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -557,4 +558,136 @@ Note that `-1` for `grid-row` will only go to end of *explicit* grid (in this ex
 ```
 
 ![row to end](assets/images/row-to-end.png "row to end")
+
+## Spanning and Placing Cardio
+
+[Example](11%20-%20Spanning%20and%20Placing%20Cardio/get-sweaty-START.html)
+
+Given html:
+
+```html
+<div class="container">
+  <div class="item item1">1</div>
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  ...
+  <div class="item poop">💩</div>
+  <div class="item item9">9</div>
+  <div class="item item10">10</div>
+  <div class="item item11">11</div>
+  ...
+  <div class="item item30">30</div>
+</div>
+```
+
+And css:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+}
+```
+
+***NOTE: Exercises are cumulative!***
+
+**Make the grid 10 columns wide, every other taking up twice the free space**
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(5, 1fr 2fr);
+}
+```
+
+![10 wide every other 2x](assets/images/10-wide-every-other-2x.png "10 wide every other 2x")
+
+**Make the grid have 10 explicit rows, 50px high each**
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  /* Make the grid 10 columns wide, every other taking up twice the free space */
+  grid-template-columns: repeat(5, 1fr 2fr);
+  /* Make the grid have 10 explicit rows, 50px high each */
+  grid-template-rows: repeat(10, 50px);
+}
+```
+
+Notice lots of extra explicit rows created (depicted by solid lines in dev tools).
+
+![10 rows 50 high](assets/images/10-rows-50-high.png "10 rows 50 high")
+
+**With Item 1, start at col 3 and go until 5**
+
+```css
+.item1 {
+  grid-column: 3 / 5;
+}
+```
+
+![col 3 to 5](assets/images/col-3-5.png "col 3 to 5")
+
+**With Item 2, start at col 5 and go until the end**
+
+```css
+.item2 {
+  grid-column: 5 / -1;
+}
+```
+
+![col 5 to end](assets/images/col-5-end.png "col 5 to end")
+
+**Make Item 5 double span 2 cols and rows**
+
+```css
+.item5 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+```
+
+![col row span 2](assets/images/col-row-span-2.png "col row span 2")
+
+**Make Item 8 two rows high**
+
+```css
+.item8 {
+  grid-row: span 2;
+}
+```
+
+![row span 2](assets/images/row-span-2.png "row span 2")
+
+**Make Item 15 span the entire grid width**
+
+```css
+.item15 {
+  grid-column: 1 / -1;
+}
+```
+
+![entire width](assets/images/entire-width.png "entire width")
+
+**Make item 18 span 4 widths, but end 9**
+
+```css
+.item18 {
+  grid-column: span 4 / 9;
+}
+```
+
+![span 4 end 9](assets/images/span-4-end-9.png "span 4 end 9")
+
+**Make item 20 start at row 4 and go for 3**
+
+```css
+.item20 {
+  grid-row: 4 / span 3;
+}
+```
+
+![row 4 span 3](assets/images/row-4-span-3.png "row 4 span 3")
 
