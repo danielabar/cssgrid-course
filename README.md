@@ -13,6 +13,7 @@
   - [Sizing Grid Items](#sizing-grid-items)
   - [Placing Grid items](#placing-grid-items)
   - [Spanning and Placing Cardio](#spanning-and-placing-cardio)
+  - [auto-fit and auto-fill](#auto-fit-and-auto-fill)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -690,4 +691,80 @@ Notice lots of extra explicit rows created (depicted by solid lines in dev tools
 ```
 
 ![row 4 span 3](assets/images/row-4-span-3.png "row 4 span 3")
+
+## auto-fit and auto-fill
+
+[Example](12%20-%20auto-fit%20and%20auto-fill/auto-fit-and-auto-fill-START.html)
+
+With `auto-fill`, do not specify how many columns, just tell grid to "figure it out" based on however much content is in each item.
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fill, 150px);
+}
+```
+
+![auto fill](assets/images/auto-fill.png "auto fill")
+
+As viewport is resized, items will jump to next line if there's no more space for them on current line.
+
+![auto fill narrow](assets/images/auto-fill-narrow.png "auto fill narrow")
+
+At first glance, `auto-fit` doesn't seem to do anything different than `auto-fill`. Difference is when there are not enough items to fill width or height of grid. In this case, `auto-fit` will stop explicit grid at last item, whereas `auto-fill` will continue adding more tracks to end of viewport.
+
+Eg, if there are only 4 child items in grid:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fit, 150px);
+}
+```
+
+Notice how explicit grid ends at 4th item, i.e. it makes the grid just wide enough to "fit" the content:
+
+![auto fit](assets/images/auto-fit.png "auto fit")
+
+Whereas with `auto-fill`, the grid tracks keep going to fit as much of the view port as possible:
+
+![auto fill less items](assets/images/auto-fill-less-items.png "auto fill less items")
+
+`auto-fill` is useful for example, have a few buttons on left side, then want to place some content at the right-most of grid:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fill, 150px);
+}
+
+.item4 {
+  grid-column-end: -1;
+}
+```
+
+![auto fill item end](assets/images/auto-fill-item-end.png "auto fill item end")
+
+Note this would NOT work with `auto-fit` because that does not tack on any extra columns:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fit, 150px);
+}
+
+.item4 {
+  grid-column-end: -1;
+}
+```
+
+![auto fit item end](assets/images/auto-fit-item-end.png "auto fit item end")
 
