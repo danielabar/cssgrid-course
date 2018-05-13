@@ -14,6 +14,8 @@
   - [Placing Grid items](#placing-grid-items)
   - [Spanning and Placing Cardio](#spanning-and-placing-cardio)
   - [auto-fit and auto-fill](#auto-fit-and-auto-fill)
+  - [Using minmax() for Responsive Grids](#using-minmax-for-responsive-grids)
+  - [Grid Template Areas](#grid-template-areas)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -768,3 +770,125 @@ Note this would NOT work with `auto-fit` because that does not tack on any extra
 
 ![auto fit item end](assets/images/auto-fit-item-end.png "auto fit item end")
 
+## Using minmax() for Responsive Grids
+
+[Example](13%20-%20Using%20minmax%20for%20Responsive%20Grids/minmax-START.html)
+
+Combination of auto-fill/auto-fit/minmax replaces many media queries because it makes grid responsive by design.
+
+Problem: Given this base layout:
+
+```html
+<div class="container">
+  <div class="item item1">Item 01</div>
+  <div class="item item2">Bonjour!</div>
+  <div class="item item3">Item 03</div>
+  <div class="item item4">Item 04</div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fill, 150px);
+}
+```
+
+![min max base](assets/images/min-max-base.png "min max base")
+
+Suppose columns were only 100px wide:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fill, 100px);
+}
+```
+
+Then any content wider than 100px starts to spill out of column:
+
+![content spill](assets/images/content-spill.png "content spill")
+
+Don't want to have to calculate how wide columns should be, want them to "flow" as wide as they need to be to fit content.
+
+Solution, use `minmax` function to specify the min and max column widths for the grid. Max of `1fr` means max is entire width of grid. Note don't need to explicitly tell it how many columns.
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+```
+
+Now as viewport gets narrower, items will wrap to next line when they no longer fit:
+
+![min max](assets/images/min-max.png "min max")
+
+Using `minmax` in combination with `auto-fit`, the 4 tracks will expand to fill all available space:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  /* grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); */
+  grid-template-columns: 150px 150px 150px 150px;
+}
+```
+
+![min max auto fit](assets/images/min-max-auto-fit.png "min max auto fit")
+
+AND as view port shrinks, will wrap, until eventually get a single stacked column:
+
+![min max auto fit narrow](assets/images/min-max-auto-fit-narrow.png "min max auto fit narrow")
+
+Given 4 columns all 150px in a wider viewport:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: 150px 150px 150px 150px;
+}
+```
+
+![four cols 150](assets/images/four-150-cols.png "four 150 cols")
+
+Then changing first column width to `auto` makes it take up all leftover space:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: auto 150px 150px 150px;
+}
+```
+
+![first col auto](assets/images/first-col-auto.png "first col auto")
+
+That `auto` width column also resizes as viewport width gets smaller:
+
+![viewport first col auto](assets/images/viewport-first-col-auto.png "viewport first col auto")
+
+Instead of using `auto`, use `fit-content` function, which accepts a `clamp` value, i.e. max width (for column) or max height (for row) that this auto grid item can grow to. eg:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: fit-content(100px) 150px 150px 150px;
+}
+```
+
+![fit content](assets/images/fit-content.png "fit-content")
+
+## Grid Template Areas
