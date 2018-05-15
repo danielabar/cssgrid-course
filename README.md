@@ -16,6 +16,7 @@
   - [auto-fit and auto-fill](#auto-fit-and-auto-fill)
   - [Using minmax() for Responsive Grids](#using-minmax-for-responsive-grids)
   - [Grid Template Areas](#grid-template-areas)
+  - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -796,7 +797,7 @@ Problem: Given this base layout:
 }
 ```
 
-![min max base](assets/images/min-max-base.png "min max base")
+![min max base](assets/images/minmax-base.png "min max base")
 
 Suppose columns were only 100px wide:
 
@@ -892,3 +893,295 @@ Instead of using `auto`, use `fit-content` function, which accepts a `clamp` val
 ![fit content](assets/images/fit-content.png "fit-content")
 
 ## Grid Template Areas
+
+[Areas Example](14%20-%20Grid%20Template%20Areas/areas-START.html)
+
+Another way to size and place grid items is to give specific names to areas on grid.
+
+To build "standard" website layout, sidebar on left, another sidebar on right, content in the middle and footer across the bottom, use 3 column grid.
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+}
+```
+
+![three col grid start](assets/images/three-col-grid-start.png "three col grid start")
+
+Now add some rows to create a 3x3 grid:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+}
+```
+
+![three by three](assets/images/three-by-three.png "three by three")
+
+Now `name` areas such that:
+
+- two squares down left hand side are: sidebar 1
+- two squares down right hand side are: sidebar 2
+- center column is: content
+- strip along bottom: footer
+
+For each area, provide set of quotes, then type name of area you want it to be:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas: "sidebar-1 content sidebar-2"
+}
+```
+
+Note dev tools will overlay area name on grid:
+
+![grid template areas](assets/images/grid-template-areas.png "grid template areas")
+
+If want more items to participate in an area, need to be explicit. Recommend breaking out each row in its own line so css matches grid:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1 content sidebar-2"
+    "sidebar-1 content sidebar-2"
+    "footer footer footer";
+}
+```
+
+![more template areas](assets/images/more-template-areas.png "more template areas")
+
+If you want some item not in area, use `.`
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1 content sidebar-2"
+    "sidebar-1 content sidebar-2"
+    "footer footer .";
+}
+```
+
+![dot template area](assets/images/dot-template-area.png "dot template area")
+
+Optionally, to make css easier to read, tab align the template areas:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1  content  sidebar-2"
+    "sidebar-1  content  sidebar-2"
+    "footer     footer   footer";
+}
+```
+
+To place items in areas, given following markup:
+
+```html
+<div class="container">
+  <div class="item item1">
+    <p>I'm Sidebar #1</p>
+  </div>
+  <div class="item item2">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, sed.</p>
+    <p>Lorem ipsum d</p>
+  </div>
+  <div class="item item3">
+    <p>I'm Sidebar #2</p>
+  </div>
+  <div class="item footer">
+    <p>I'm the footer</p>
+  </div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1  content  sidebar-2"
+    "sidebar-1  content  sidebar-2"
+    "footer     footer   footer";
+}
+
+.footer {
+  grid-area: footer;
+}
+```
+
+This will size footer and place it in matching area by name. Note no need to specify how big the item should be or explicitly state where it should go:
+
+![place footer](assets/images/place-footer.png "place footer")
+
+To place remaining items:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1  content  sidebar-2"
+    "sidebar-1  content  sidebar-2"
+    "footer     footer   footer";
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.item1 {
+  grid-area: sidebar-1;
+}
+
+.item2 {
+  grid-area: content
+}
+
+.item3 {
+  grid-area: sidebar-2;
+}
+```
+
+![place all items](assets/images/place-all-items.png "place all items")
+
+For responsiveness, use media queries to switch up where areas should go. Also note, for best responsive results, use only `fr` units for column widths, not `px`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 150px 150px 100px;
+  grid-template-areas:
+    "sidebar-1  content  sidebar-2"
+    "sidebar-1  content  sidebar-2"
+    "footer     footer   footer";
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.item1 {
+  grid-area: sidebar-1;
+}
+
+.item2 {
+  grid-area: content
+}
+
+.item3 {
+  grid-area: sidebar-2;
+}
+
+@media (max-width: 700px) {
+  .container {
+    grid-template-areas:
+      "content  content  content"
+      "sidebar-1  sidebar-1  sidebar-2"
+      "footer     footer   footer";
+  }
+}
+```
+
+![template areas responsive](assets/images/template-areas-responsive.png)
+
+When creating grid areas, also get *line names*.
+
+[Example](14%20-%20Grid%20Template%20Areas/area-line-names-START.html14%20-%20Grid Template Areas/area-line-names-START.html)
+
+Make a grid without explicitly defining any columns or rows:
+
+```html
+<div class="container">
+  <div class="item item1">1</div>
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  ...
+  <div class="item item30">30</div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-areas:
+    "💩 💩 💩 💩 🍔 🍔 🍔 🍔"
+    "💩 💩 💩 💩 🍔 🍔 🍔 🍔"
+    "💩 💩 💩 💩 🍔 🍔 🍔 🍔"
+    "💩 💩 💩 💩 🍔 🍔 🍔 🍔"
+}
+```
+
+![area lines start](assets/images/area-lines-start.png "area lines start")
+
+To make item3 fill up entire `:poop:` area:
+
+```css
+.item3 {
+  grid-area: 💩;
+}
+```
+
+![item 3 poop](assets/images/item-3-poop.png "item 3 poop")
+
+Note that grid template area in above example defines 32 slots (8 across x 4 down). But making item-3 fill up all `:poop:` areas takes up 16 (4x4), which means there are not enough defined slots for the 30 items in markup. Turning on lines in dev tools can see explicit grid areas defined for poop and hamburger. After that, remaining items will be placed in additional rows, which are *implicitly* created.
+
+To place items using line names, use grid area name, plus `-start` or `-end`. These are line names that come for free once you start using grid template areas:
+
+```css
+.item3 {
+  grid-column: 💩-start / 💩-end;
+}
+```
+
+![place line names](assets/images/place-line-names.png "place lines names")
+
+Can combine different area names in item placement:
+
+```css
+.item3 {
+  grid-column: 💩-start / 🍔-end;
+}
+```
+
+![line name combo](assets/images/line-name-combo.png "line name combo")
+
+Can also specify row end in this manner. Note item will move down to where row where last poop area is specified and spill into hamburger area:
+
+```css
+.item3 {
+  grid-column: 💩-start / 🍔-end;
+  grid-row-end: 💩-end;
+}
+```
+
+![line name poop end](assets/images/line-name-poop-end.png "line name poop end")
+
+## Naming Lines in CSS Grid
