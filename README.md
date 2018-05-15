@@ -1185,3 +1185,62 @@ Can also specify row end in this manner. Note item will move down to where row w
 ![line name poop end](assets/images/line-name-poop-end.png "line name poop end")
 
 ## Naming Lines in CSS Grid
+
+[Example](15%20-%20Naming%20Lines%20in%20CSS%20Grid/naming-lines-START.html)
+
+In addition to the "free" lines you get from naming template areas, can also explicitly name lines.
+
+Given the following markup:
+
+```html
+<div class="container">
+  <div class="item item1">1</div>
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  ...
+  <div class="item item30">30</div>
+</div>
+```
+
+Want to place item3 in the middle, spanning all the way to the top. The way we learned previously is:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: repeat(10, auto);
+}
+```
+
+An alternate approach is to *name* the lines rather than using numbers. Recall the line numbers do not refer to the columns, they are the lines between the columns. To name the lines, use `[]` square brackets when defining rows and columns, then refer to those names when defining start and end positions for item(s):
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: [site-left] 1fr [content-start] 500px [content-end] 1fr [site-right];
+  grid-template-rows: [content-top] repeat(10, auto) [content-bottom];
+}
+
+.item3 {
+  background: slateblue;
+  grid-column: content-start;
+  grid-row: content-top / content-bottom;
+}
+```
+
+![col start 2 row 1 span 10](assets/images/col-start-2-row-1-span-10.png "col start 2 row 1 span 10")
+
+Can also assign multiple line names:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: [sidebar-start site-left] 1fr [sidebar-end content-start] 500px [content-end] 1fr [site-right];
+  grid-template-rows: [content-top] repeat(10, auto) [content-bottom];
+}
+```
+
+Note: For now, dev tools do not display line names.
