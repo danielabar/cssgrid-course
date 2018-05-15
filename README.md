@@ -17,6 +17,7 @@
   - [Using minmax() for Responsive Grids](#using-minmax-for-responsive-grids)
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
+  - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1244,3 +1245,126 @@ Can also assign multiple line names:
 ```
 
 Note: For now, dev tools do not display line names.
+
+## grid-auto-flow dense Block Fitting
+
+[Example](16%20-%20grid-auto-flow%20dense%20Block%20Fitting/dense-START.html)
+
+Recall `grid-auto-flow` specifies what to do when there are more items than explicitly defined grid can contain. Values can be either `row` or `column`. There is 3rd option `dense`.
+
+Given markup of 70 items
+
+```html
+```html
+<div class="container">
+  <div class="item item1">1</div>
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  ...
+  <div class="item item70">70</div>
+</div>
+```
+
+This css will create gaps because first 6th item starting at 6th column and spanning 6 is wider than grid has available.
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.item:nth-child(6n) {
+  background: cornflowerblue;
+  grid-column: span 6;
+}
+```
+
+![span 6 gaps](assets/images/span-6-gaps.png "span 6 gaps")
+
+Solution is to use `grid-auto-flow: dense`, which will fill all available slots:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-flow: dense;
+}
+
+.item:nth-child(6n) {
+  background: cornflowerblue;
+  grid-column: span 6;
+}
+```
+
+![grid auto flow dense](assets/images/grid-autoflow-dense.png "grid autoflow dense")
+
+Now alter more elements to make them take up more space and comment out dense:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  /* grid-auto-flow: dense; */
+}
+
+.item:nth-child(6n) {
+  background: cornflowerblue;
+  grid-column: span 6;
+}
+
+.item:nth-child(8n) {
+  background: tomato;
+  grid-column: span 2;
+}
+
+.item:nth-child(9n) {
+  background: #2f5c62;
+  grid-row: span 2;
+}
+```
+
+![more gaps](assets/images/more-gaps.png "more gaps")
+
+If don't care about order in which gaps are filled in, just uncomment dense:
+
+![no gaps no order](assets/images/no-gaps-no-order.png)
+
+If want a specific item in a specific slot, css will first layout items that have explicit positioning, then fit in the rest:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-flow: dense;
+}
+
+.item:nth-child(6n) {
+  background: cornflowerblue;
+  grid-column: span 6;
+}
+
+.item:nth-child(8n) {
+  background: tomato;
+  grid-column: span 2;
+}
+
+.item:nth-child(9n) {
+  background: #2f5c62;
+  grid-row: span 2;
+}
+
+/* hackety hack */
+.item18 {
+  background: greenyellow !important;
+  grid-column-end: -1 !important;
+}
+```
+
+![dense explicit place](assets/images/dense-explict-place.png "dense explicit place")
+
+Note in this case worked out well with no gaps, but it's NOT a masonry layout, sometimes will get gaps.
+
