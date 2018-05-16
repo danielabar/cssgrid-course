@@ -18,7 +18,7 @@
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
   - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
-  - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
+  - [CSS Grid Alignment + Centering](#css-grid-alignment-centering)
     - [Center div](#center-div)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1743,7 +1743,7 @@ To change this, try `align-content: center`:
 
 Note that itm5 (wes is cool) is centered horizontally whereas all the other items are stretched:
 
-![justify self center](assets/images/justify-self-center.png "justify self center)
+![justify self center](assets/images/justify-self-center.png "justify self center")
 
 `align-self` works the same way, on individual element, but need to have `height` to see effect.
 
