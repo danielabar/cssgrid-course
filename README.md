@@ -18,6 +18,8 @@
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
   - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
+  - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
+    - [Center div](#center-div)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1368,3 +1370,397 @@ If want a specific item in a specific slot, css will first layout items that hav
 
 Note in this case worked out well with no gaps, but it's NOT a masonry layout, sometimes will get gaps.
 
+## CSS Grid Alignment + Centering
+
+[Example](17%20-%20CSS%20Grid%20Alignment%20+%20Centering/alignment-and-centering-START.html)
+
+[CSS Tricks Guide](https://css-tricks.com/snippets/css/complete-guide-grid/)
+
+Even if not using css grid for entire site, still useful for centering content, even easier than flexbox.
+
+There are six properties for alignment:
+- justify-items (default: stretch, other values: center, start, end)
+- align-items (default: stretch, other values: center, start, end)
+- justify-content (default: start, other values: center, start, end, space-around, space-between)
+- align-content (default: stretch, other values: center, start, end, space-around, space-between)
+- align-self
+- justify-self
+
+`justify-*` controls x axis, i.e. row axis, horizontal axis
+`align-*` control y axis, i.e. column axis (top to bottom), vertical axis
+
+Unlike flexbox, these never switch.
+
+
+Markup:
+
+```html
+<div class="container">
+  <div class="itm itm1">1</div>
+  <div class="itm itm2">2</div>
+  <div class="itm itm3">3</div>
+  ...
+  <div class="itm itm40">40</div>
+</div>
+```
+
+Basic css with no centering, this is equivalent to default value on grid container: `justify-items: stretch`
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.itm {
+  background: white;
+}
+```
+
+![no center](assets/images/no-center.png "no center")
+
+`justify-items` and `align-items` affect the direct children of the grid container.
+
+Example of using `justify-items: center`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  justify-items: center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![justify items center](assets/images/justify-items-center.png "justify items center")
+
+Notice each item becomes only as wide as it needs to be. Modify markup so one item has more content:
+
+```html
+<div class="itm itm6">Some very long content yada yada yada... woohoo....</div>
+```
+
+![justify items center long content](assets/images/justify-items-center-longcontent.png "justify items center long content")
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  justify-items: center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+Example of using `justify-items: start`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  justify-items: start;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![justify items start](assets/images/justify-items-start.png "justify items start")
+
+And `justify-items: end`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  justify-items: end;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![justify items end](assets/images/justify-items-end.png "justify items end")
+
+Can also use `justify-items: flex-start` and `justify-items: flex-start` because those were flexbox values but recommend sticking with just `start/end`.
+
+`align-items` operates along y axis, therefore to see the effect, need to have some row height.
+First start with default behaviour, i.e. `align-items: stretch`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(5, 100px);
+}
+
+.itm {
+  background: white;
+}
+```
+
+![align items default](assets/images/align-items-default.png "align items default")
+
+Now try `align-items: start`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(5, 100px);
+  align-items: start;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![align items start](assets/images/align-items-start.png "align items start")
+
+And: `align-items: end`:
+
+![align items end](assets/images/align-items-end.png "align items end")
+
+And: `align-items: center`:
+
+![align items center](assets/images/align-items-center.png "align items center")
+
+To center both horizontally and vertically:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(5, 100px);
+  justify-items: center;
+  align-items: center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![perfectly centered](assets/images/perfectly-centered.png "perfectly centered")
+
+Use `place-items` as shorthand for `align-items` and `justify-items`, for example, this would have exact same effect as above:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(5, 100px);
+  place-items: center center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+`justify-content` and `align-content` are concerned with extra space in grid container. For example, if have a grid container that is wider than the content within it:
+
+Note that default is: `justify-content: start`
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  place-items: center center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![container wider content](assets/images/container-wider-content.png "container wider content")
+
+Now try `justify-content: end`:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  place-items: center center;
+  justify-content: end;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![justify content end](assets/images/justify-content-end.png "justify content end")
+
+And `justify-content: center`
+
+![justify content center](assets/images/justify-content-center.png "justify content center")
+
+Very useful feature is from flexbox: `justify-content: space-around` distributes extra space evenly in between columns:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  place-items: stretch stretch;
+  justify-content: space-around;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![justify content space-around](assets/images/justify-content-space-around.png "justify content space-around")
+
+If you don't want extra space outside left and right-most columns, use `justify-content: space-between`:
+
+![justify content space-between](assets/images/justify-content-space-between.png "justify content space-between")
+
+For next examples, reduce number of items to 10. Suppose grid container has explicit height:
+
+```html
+<div class="container">
+  <div class="itm itm1">1</div>
+  <div class="itm itm2">2</div>
+  <div class="itm itm3">3</div>
+  <div class="itm itm4">4</div>
+  <div class="itm itm5">wes is cool</div>
+  <div class="itm itm6">6</div>
+  <div class="itm itm7">7</div>
+  <div class="itm itm8">8</div>
+  <div class="itm itm9">9</div>
+  <div class="itm itm10">10</div>
+</div>
+```
+
+```css
+.container {
+  height: 500px;
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 130px);
+  place-items: stretch stretch;
+  justify-content: space-between;
+}
+
+.itm {
+  background: white;
+}
+```
+
+In this case default behaviour of items is to stretch vertically:
+
+![container height](assets/images/container-height.png "container height")
+
+To change this, try `align-content: center`:
+
+```css
+.container {
+  height: 500px;
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 130px);
+  place-items: stretch stretch;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.itm {
+  background: white;
+}
+```
+
+![align content center](assets/images/align-content-center.png "align content center")
+
+`align-content: start`:
+
+![align content start](assets/images/align-content-start.png "align content start")
+
+`align-content: end`:
+
+![align content end](assets/images/align-content-end.png "align content end")
+
+`align-content: space-around`:
+
+![align content space-around](assets/images/align-content-space-around.png "align content space-around")
+
+`align-content: space-between`:
+
+![align content space-between](assets/images/align-content-space-between.png "align content space-between")
+
+`align-self` and `justify-self` allow for overriding alignment on individual items. Example:
+
+```css
+.container {
+  height: 500px;
+  display: grid;
+  grid-gap: 20px;
+  border: 10px solid var(--yellow);
+  grid-template-columns: repeat(5, 130px);
+  place-items: stretch stretch;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.itm {
+  background: white;
+}
+
+.itm5 {
+  justify-self: center;
+}
+```
+
+Note that itm5 (wes is cool) is centered horizontally whereas all the other items are stretched:
+
+![justify self center](assets/images/justify-self-center.png "justify self center)
+
+`align-self` works the same way, on individual element, but need to have `height` to see effect.
+
+### Center div
+
+Neat trick to center any div - use grid without defining any rows or columns:
+
+```html
+<div class="foo">
+  I will be centered!
+</div>
+```
+
+```css
+.foo {
+  display: grid;
+  justify-content: center;
+  align-items: center
+}
+```
