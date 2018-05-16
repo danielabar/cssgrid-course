@@ -18,8 +18,9 @@
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
   - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
-  - [CSS Grid Alignment + Centering](#css-grid-alignment-centering)
+  - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
     - [Center div](#center-div)
+  - [Re-ordering Grid Items](#re-ordering-grid-items)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1764,3 +1765,98 @@ Neat trick to center any div - use grid without defining any rows or columns:
   align-items: center
 }
 ```
+
+## Re-ordering Grid Items
+
+[Example](18%20-%20Re-ordering%20Grid%20Items/order-START.html)
+
+Given the following markup and styles:
+
+```html
+<div class="container">
+  <div class="item logo">LOGO</div>
+  <div class="item nav">NAV</div>
+  <div class="item content">
+    <p>I'm the Content!</p>
+  </div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.logo {
+  grid-column: span 2;
+}
+
+.nav {
+  grid-column: span 8;
+}
+
+.content {
+  grid-column: 1 / -1;
+}
+```
+
+![reorder items start](assets/images/reorder-items-start.png "reorder items start")
+
+Now for smaller viewport, eg: phone, would like Nav to go above Logo. Use `order` property. Note default value is 0. So if place it on only one item such as `order: 1`, will go last because others are 0:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.logo {
+  grid-column: span 2;
+  order: 1;
+}
+
+.nav {
+  grid-column: span 8;
+}
+
+.content {
+  grid-column: 1 / -1;
+}
+```
+
+![logo last](assets/images/logo-last.png "logo last")
+
+Applying order to all elements:
+
+```css
+.container {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.logo {
+  grid-column: span 2;
+  order: 2;
+}
+
+.nav {
+  grid-column: span 8;
+  order: 1;
+}
+
+.content {
+  grid-column: 1 / -1;
+  order: 3;
+}
+```
+
+![order all](assets/images/order-all.png "order all")
+
+Order Gotchas:
+- Accessibility: Modifying `order` will affect order in which screen reader reads items aloud.
+- Changes order in which items are highlight/selected as user drags with a mouse.
+
