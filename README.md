@@ -21,6 +21,7 @@
   - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
     - [Center div](#center-div)
   - [Re-ordering Grid Items](#re-ordering-grid-items)
+  - [Nesting Grid with Album Layouts](#nesting-grid-with-album-layouts)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1860,3 +1861,96 @@ Order Gotchas:
 - Accessibility: Modifying `order` will affect order in which screen reader reads items aloud.
 - Changes order in which items are highlight/selected as user drags with a mouse.
 
+## Nesting Grid with Album Layouts
+
+[Demo](19%20-%20Nesting%20Grid%20with%20Album%20Layouts/albums-START.html)
+
+Real world example building a media layout - grid of cards with photo to left and title/description text to right. It's fully responsive with no media queries!
+
+Markup:
+
+![albums markup](assets/images/albums-markup.png "albums markup")
+
+For responsive grid, use combination of auto-fit with minmax:
+
+```css
+.albums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 20px;
+}
+```
+
+Add some basic styling for album items:
+
+```css
+.album {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+```
+
+![albums progress 1](assets/images/albums-progress-1.png "albums progress 1")
+
+To make album text line up beside album photo, make each `album` child item of `albums` grid also be a grid container - i.e. *nested grid*.
+
+NOTE: To force 300x300 images (natural) into 150px wide column, need to add `width: 100%` on image container. This will also shrink down image height to 150px since the images are proportional:
+
+```css
+.albums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 20px;
+}
+
+.album {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-gap: 20px;
+}
+
+.album__artwork {
+  width: 100%;
+}
+```
+
+![albums progress 2](assets/images/albums-progress-2.png "albums progress 2")
+
+Now make content within each `album` item vertically centered, final styles:
+
+```css
+.albums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.album {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-gap: 10px;
+  align-items: center;
+  color: white;
+  font-weight: 100;
+}
+
+.album__artwork {
+  width: 100%;
+}
+```
+
+![albums 3 cols](assets/images/albums-3-cols.png "albums 3 cols")
+
+As viewport shrinks or increases, number of columns will auto adjust:
+
+![albums 3 cols](assets/images/albums-3-cols.png "albums 3 cols")
+![albums 2 cols](assets/images/albums-2-cols.png "albums 2 cols")
+![albums 1 cols](assets/images/albums-1-cols.png "albums 1 cols")
+![albums 4 cols](assets/images/albums-4-cols.png "albums 4 cols")
