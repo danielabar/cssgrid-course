@@ -53,7 +53,7 @@ code:root {
 
 ## CSS Grid Fundamentals
 
-[Example](03 - CSS Grid Fundamentals/css-grid-fundamentals-START.html)
+[Example](03%20-%20CSS%20Grid%20Fundamentals/css-grid-fundamentals-START.html)
 
 Take any element such as `<div>` and add `display: grid` in css. Then you can slice/dice grid into a grid of rows and columns, where items can be placed *anywhere* in grid. Can also span multiple rows/cols.
 
