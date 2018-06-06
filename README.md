@@ -18,11 +18,12 @@
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
   - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
-  - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
+  - [CSS Grid Alignment + Centering](#css-grid-alignment-centering)
     - [Center div](#center-div)
   - [Re-ordering Grid Items](#re-ordering-grid-items)
   - [Nesting Grid with Album Layouts](#nesting-grid-with-album-layouts)
   - [CSS Grid Image Gallery](#css-grid-image-gallery)
+  - [Flexbox vs CSS Grid](#flexbox-vs-css-grid)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1982,5 +1983,275 @@ To overlap items in a grid container, simply give them the same positioning, eg:
 .item__overlay {
   grid-column: 1 / -1;
   grid-row: 1 / -1;
+}
+```
+
+## Flexbox vs CSS Grid
+
+Conventional wisdom has been flexbox is suitable for layout in one dimension whereas grid is good when two dimensional layout required. However, grid can do everything flexbox can.
+
+One benefit of flexbox over css grid is transitions. eg, flex-grow can be animated. With grid, only grid-gap can be transitioned.
+
+Grid is more consistent across browsers and doesn't have as many bugs as flexbox.
+
+Following sections has examples of things that can be done in flexbox, and how to do in css grid.
+
+[Axis Flipping](21%20-%20Flexbox%20vs%20CSS%20Grid/axis-flipping-START.html)
+
+In flexbox, have ability to flip flex direction from column to row. In grid, simply change number of columns to 1.
+
+[Controls on Right](cssgrid-course/21%20-%20Flexbox%20vs%20CSS Grid/controls-on-right-START.html)
+
+Media/text on left, controls on right. Any space left in between want to allocate to media/text. Use one column grid. Then `grid-auto-flow: column` to make additional items get added as columns.
+
+```html
+<div class="tracks">
+  <div class="track">
+    <h2>The Future (Ft. The R.O.C.)</h2>
+    <button>⭐</button>
+    <button>❤️</button>
+    <button>❌</button>
+  </div>
+  ...
+</div>
+```
+
+```css
+.track {
+  background: white;
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-flow: column;
+}
+```
+
+![controls on right](assets/images/controls-on-right.png "controls on right")
+
+[Flex on Item](cssgrid-course/21%20-%20Flexbox%20vs%20CSS%20Grid/flex-on-item-START.html)
+
+Media controls for video player. Some control buttons on left and right, and scrubber bar in the middle. Have buttons take up as much space as they need, and remainder of space for scrubber bar.
+
+```html
+<div class="controls">
+  <button>⏯️</button>
+  <button>🐢</button>
+  <button>🐰</button>
+  <div class="scrubber"></div>
+  <button>💬</button>
+  <button>🔽</button>
+</div>
+```
+
+Flexbox solution, in this case, better than CSS Grid:
+
+```css
+.controls {
+  margin: 200px 0;
+  display: flex;
+  /* vertical center */
+  align-items: center;
+}
+
+.scrubber {
+  background: #BADA55;
+  height: 10px;
+  min-width: 100px;
+  border-radius: 10px;
+  /* flex grow scrubber to take all extra space */
+  flex: 1;
+}
+```
+
+CSS Grid solution is more brittle because must specify each column to match a button:
+
+```css
+.controls {
+  margin: 200px 0;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto auto;
+  align-items: center;
+}
+
+.scrubber {
+  background: #BADA55;
+  height: 10px;
+  min-width: 100px;
+  border-radius: 10px;
+  /* flex: 1; */
+}
+```
+
+![media controls flexbox](assets/images/media-controls-flexbox.png "media controls flexbox")
+
+[Perfectly Centered](cssgrid-course/21%20-%20Flexbox%20vs%20CSS%20Grid/perfectly-centered-START.html)
+
+Common use case - have an area with height such as hero, and want to center any number of items within it.
+
+```html
+<div class="hero">
+  <h2>Something Big Is Coming</h2>
+  <p>Get Ready...</p>
+</div>
+```
+
+First, the flexbox solution:
+
+```css
+.hero {
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+![hero center flex](assets/images/hero-center-flex.png "hero center flex")
+
+Now grid solution (increased height)
+
+```css
+.hero {
+  height: 400px;
+  background: rgba(255, 255, 255, 0.2);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  display: grid;
+  justify-items: center;
+  align-content: center;
+}
+```
+
+![hero centered grid](assets/images/hero-centered-grid.png "hero centered grid")
+
+With centering, either solution flex or grid is good, pick whichever you prefer.
+
+Next example only doable with grid:
+
+[Self Control](cssgrid-course/21%20-%20Flexbox%20vs%20CSS Grid/self-control-START.html)
+
+To align items in each of 4 corners of a box. Practical use?
+
+```html
+<div class="corners">
+  <div class="corner item">1</div>
+  <div class="corner item">TWO</div>
+  <div class="corner item">3</div>
+  <div class="corner item">4</div>
+</div>
+```
+
+Start by making a 2 x 2 grid, this example uses shorthand syntax:
+
+```css
+.corners {
+  display: grid;
+  height: 200px;
+  width: 200px;
+  border: 10px solid var(--yellow);
+  /* make a 2 x 2 grid */
+  /* grid-template-columns: 1fr 1fr;
+  grid-template: 1fr 1fr; */
+  /* shorthand version of above */
+  grid-template: 1fr 1fr / 1fr 1fr;
+}
+```
+
+By default content is stretching:
+
+![two by twp](assets/images/two-by-two.pneg "two by two")
+
+Make each item align in its respective corner:
+
+```css
+.corners {
+  display: grid;
+  height: 200px;
+  width: 200px;
+  border: 10px solid var(--yellow);
+  /* make a 2 x 2 grid */
+  /* grid-template-columns: 1fr 1fr;
+  grid-template: 1fr 1fr; */
+  /* shorthand version of above */
+  grid-template: 1fr 1fr / 1fr 1fr;
+
+  /* put items in bottom right hand corner of each cell */
+  align-items: end;
+  justify-items: end;
+}
+
+/* override alignment */
+.corner:nth-child(1),
+.corner:nth-child(2) {
+  align-self: start;
+}
+
+/* override alignment - justify-self is grid only, cannot do in flexbox */
+.corner:nth-child(1),
+.corner:nth-child(3) {
+  justify-self: start;
+}
+```
+
+![align corners](assets/images/align-corner.png "align-corners.png")
+
+[Stacked Layout](cssgrid-course/21%20-%20Flexbox%20vs%20CSS%20Grid/stacked-layout-START.html)
+
+Only doable in flexbox, because grid columns are rigid, can't have rows that are different sizes.
+
+```html
+<!-- Stacked Layout -->
+<div class="stacked">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+</div>
+```
+
+```css
+.stacked {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.stacked>* {
+  width: 30%;
+  margin-bottom: 20px;
+}
+```
+
+![stacked layout flex](assets/images/stacked-layout-flex.png "stacked layout flex")
+
+[Unknown Content Size](cssgrid-course/21%20-%20Flexbox%20vs%20CSS Grid/unknown-content-size-START.html)
+
+Use this technique when you know how many columns you have but not width of content in each:
+
+```html
+<div class="container known">
+  <div class="item">Short</div>
+  <div class="item">Longerrrrrr</div>
+  <div class="item">
+    <img src="https://source.unsplash.com/300x200" alt="">
+  </div>
+  <div class="item">💩</div>
+</div>
+```
+
+```css
+.known {
+  margin: 100px 0;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  grid-gap: 20px;
 }
 ```
