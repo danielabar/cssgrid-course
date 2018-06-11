@@ -13,7 +13,7 @@
   <script>
     function addItem() {
       const unknown = document.querySelector('.unknown');
-      unknown.innerHTML += `<div class="item">${unknown.childElementCount}</div>`;
+      unknown.innerHTML += `<div class="item">${unknown.childElementCount+1}</div>`;
     }
   </script>
   <button onClick="addItem()">+ Add</button>
@@ -24,7 +24,11 @@
   </div>
 
   <style>
-    .unknown {}
+    .unknown {
+      display: grid;
+      grid-template-columns:  repeat(auto-fit, minmax(50px, 1fr));
+      grid-gap: 20px;
+    }
   </style>
 </body>
 

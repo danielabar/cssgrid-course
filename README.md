@@ -2255,3 +2255,72 @@ Use this technique when you know how many columns you have but not width of cont
   grid-gap: 20px;
 }
 ```
+
+[Unknown Number of Items](cssgrid-course/21%20-%20Flexbox%20vs%20CSS%20Grid/unknown-number-of-items-START.html)
+
+Want columns to take up as much space as available, but don't know in advance how many columns there will be.
+
+Given this markup:
+
+```html
+<script>
+  function addItem() {
+    const unknown = document.querySelector('.unknown');
+    unknown.innerHTML += `<div class="item">${unknown.childElementCount+1}</div>`;
+  }
+</script>
+<button onClick="addItem()">+ Add</button>
+<div class="unknown">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+```
+
+Use repeat, auto-fit and min-max:
+
+```css
+.unknown {
+  display: grid;
+  grid-template-columns:  repeat(auto-fit, minmax(50px, 1fr));
+  grid-gap: 20px;
+}
+```
+
+![unknown num items](assets/images/unknown-num-items.png "unknown num items")
+
+When items reach 50px, since that's the min, will start to wrap if add more items:
+
+![unknown num items wrap](assets/images/unknown-num-items-wrap.png "unknown num items wrap")
+
+[Variable widths each row](cssgrid-course/21%20-%20Flexbox%20vs%20CSS Grid/variable-widths-each-row-START.html)
+
+In this case flexbox is better.
+
+```html
+<div class="flex-container">
+  <div class="item">Short</div>
+  <div class="item">Longerrrrrrrrrrrrrr</div>
+  <div class="item">💩</div>
+  <div class="item">This is Many Words</div>
+  <div class="item">Lorem, ipsum.</div>
+  <div class="item">10</div>
+  <div class="item">Snickers</div>
+  <div class="item">Wes Is Cool</div>
+  <div class="item">Short</div>
+</div>
+```
+
+```css
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-container>* {
+  /* make each item fit in as perfectly as possible */
+  flex: 1;
+}
+```
+
+![variable widths each row](assets/images/variable-widths-each-row.png "variable widths each row")

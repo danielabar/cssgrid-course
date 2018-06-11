@@ -20,11 +20,16 @@
     <div class="item">Wes Is Cool</div>
     <div class="item">Short</div>
   </div>
+
   <style>
-    .flex-container {}
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
     .flex-container>* {
-      margin: 10px;
+      /* make each item fit in as perfectly as possible */
+      flex: 1;
     }
   </style>
 </body>
