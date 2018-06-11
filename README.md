@@ -26,6 +26,7 @@
   - [Flexbox vs CSS Grid](#flexbox-vs-css-grid)
   - [Reacreating Codepen](#reacreating-codepen)
   - [Bootstrappy Grid with CSS Variables](#bootstrappy-grid-with-css-variables)
+  - [Responsive Website](#responsive-website)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2382,3 +2383,13 @@ Use css variables for a flexible grid (rather than explicitly defiing classes su
 ```
 
 ![grid with vars](assets/images/grid-with-vars.png "grid with vars")
+
+## Responsive Website
+
+[Demo Markup](cssgrid-course/24%20-%20Responisve%20Website/responsive-START.html) | [Demo Styles](cssgrid-course/24%20-%20Responisve%20Website/responsive-START.css)
+
+Typical website with hero image, calls to action on the side, responsive navigation, feature columns, instagram pics at bottom.
+
+Use grid template areas to name sections, useful for responsive layout.
+
+Note that `::before` and `::after` psuedo elements are considered grid items.
