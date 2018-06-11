@@ -25,6 +25,7 @@
   - [CSS Grid Image Gallery](#css-grid-image-gallery)
   - [Flexbox vs CSS Grid](#flexbox-vs-css-grid)
   - [Reacreating Codepen](#reacreating-codepen)
+  - [Bootstrappy Grid with CSS Variables](#bootstrappy-grid-with-css-variables)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2347,3 +2348,37 @@ Outer container will be a grid, where header and footer take up as much space as
 NOTE: To make grid-template-rows auto and 1fr work, need a height on `.codepen`, make it 100% of viewport with `height: 100vh;`
 
 ![codepen final](assets/images/codepen-final.png "codepen final")
+
+## Bootstrappy Grid with CSS Variables
+
+[Demo](cssgrid-course/23%20-%20Bootstrappy%20Grid%20with%20CSS%20Variables/grid-START.html)
+
+Bootstrap style grid more rigid compared to css grid that can flex to whatever the viewport size and extra space. But there's still valid use cases for bootstrap style, 12 column grid.
+
+Use css variables for a flexible grid (rather than explicitly defiing classes such as span1, span2 etc):
+
+```html
+<!-- override default num cols of 12 with 10 -->
+<div class="grid" style="--cols: 10;">
+  <div class="item">1</div>
+  <!-- override default span of 1 with 3-->
+  <div class="item" style="--span: 3;">longer text</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+</div>
+```
+
+```css
+.grid {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(var(--cols, 12), minmax(0, 1fr));
+}
+
+.item {
+  width: 100%;
+  grid-column: span var(--span, 1);
+}
+```
+
+![grid with vars](assets/images/grid-with-vars.png "grid with vars")

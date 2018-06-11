@@ -11,15 +11,33 @@
 
 <body>
 
-  <div class="grid">
+  <!-- override default num cols of 12 with 10 -->
+  <div class="grid" style="--cols: 10;">
     <div class="item">1</div>
-    <div class="item">2</div>
+    <!-- override default span of 1 with 7 -->
+    <div class="item" style="--span: 7;">
+      <!-- a nested 2 col grid -->
+      <div class="grid" style="--cols: 2;">
+        <div class="item">1</div>
+        <div class="item">2</div>
+      </div>
+    </div>
     <div class="item">3</div>
     <div class="item">4</div>
   </div>
 
   <style>
-    .grid {}
+    .grid {
+      display: grid;
+      grid-gap: 20px;
+      grid-template-columns: repeat(var(--cols, 12), minmax(0, 1fr));
+    }
+
+    .item {
+      width: 100%;
+      --span: 1;
+      grid-column: span var(--span);
+    }
   </style>
 
 </body>
