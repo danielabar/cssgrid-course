@@ -18,12 +18,13 @@
   - [Grid Template Areas](#grid-template-areas)
   - [Naming Lines in CSS Grid](#naming-lines-in-css-grid)
   - [grid-auto-flow dense Block Fitting](#grid-auto-flow-dense-block-fitting)
-  - [CSS Grid Alignment + Centering](#css-grid-alignment-centering)
+  - [CSS Grid Alignment + Centering](#css-grid-alignment--centering)
     - [Center div](#center-div)
   - [Re-ordering Grid Items](#re-ordering-grid-items)
   - [Nesting Grid with Album Layouts](#nesting-grid-with-album-layouts)
   - [CSS Grid Image Gallery](#css-grid-image-gallery)
   - [Flexbox vs CSS Grid](#flexbox-vs-css-grid)
+  - [Reacreating Codepen](#reacreating-codepen)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2324,3 +2325,25 @@ In this case flexbox is better.
 ```
 
 ![variable widths each row](assets/images/variable-widths-each-row.png "variable widths each row")
+
+## Reacreating Codepen
+
+[Codepen Markup](cssgrid-course/22%20-%20Recreating%20Codepen/codepen-START.html) | [Codepen Styles](cssgrid-course/22%20-%20Recreating%20Codepen/style-START.css)
+
+CSS grid well suited for application - multiple windows in view, some scrolling, all need to fit in however big viewport is. Codepen is good example, 4 main parts:
+
+![codepen main parts](assets/images/codepen-main-parts.png "codepen main parts")
+
+Overall approach:
+Outer container will be a grid, where header and footer take up as much space as they need, then split the difference between code editor and preview windows:
+
+```css
+.codepen {
+  display: grid;
+  grid-template-rows: auto 1fr 1fr auto;
+}
+```
+
+NOTE: To make grid-template-rows auto and 1fr work, need a height on `.codepen`, make it 100% of viewport with `height: 100vh;`
+
+![codepen final](assets/images/codepen-final.png "codepen final")
