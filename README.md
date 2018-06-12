@@ -1374,7 +1374,7 @@ If want a specific item in a specific slot, css will first layout items that hav
 }
 ```
 
-![dense explicit place](assets/images/dense-explict-place.png "dense explicit place")
+![dense explicit place](assets/images/dense-explicit-place.png "dense explicit place")
 
 Note in this case worked out well with no gaps, but it's NOT a masonry layout, sometimes will get gaps.
 
@@ -2169,7 +2169,7 @@ Start by making a 2 x 2 grid, this example uses shorthand syntax:
 
 By default content is stretching:
 
-![two by twp](assets/images/two-by-two.pneg "two by two")
+![two by two](assets/images/two-by-two.png "two by two")
 
 Make each item align in its respective corner:
 
@@ -2203,7 +2203,7 @@ Make each item align in its respective corner:
 }
 ```
 
-![align corners](assets/images/align-corner.png "align-corners.png")
+![align corners](assets/images/align-corners.png "align-corners.png")
 
 [Stacked Layout](cssgrid-course/21%20-%20Flexbox%20vs%20CSS%20Grid/stacked-layout-START.html)
 
