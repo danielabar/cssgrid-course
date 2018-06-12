@@ -154,6 +154,57 @@
       font-weight: 100;
       margin: 0;
     }
+
+    .post {
+      display: grid;
+      /* shorthand for row-gap column-gap */
+      grid-gap: 10px 50px;
+      grid-template-columns: 3fr 12fr 5fr;
+      max-width: 1000px;
+      margin: 200px auto;
+    }
+
+    /* place all direct children of post in center column */
+    .post > * {
+      grid-column: 2 / -2;
+    }
+
+    /* images span all the way across grid */
+    .post > figure {
+      margin: 0;
+      grid-column: 1 / -1;
+    }
+
+    .post figcaption {
+      font-size: 10px;
+    }
+
+    .post > blockquote {
+      /* quotes should also span all the way across */
+      grid-column: 1 / -1;
+      margin: 0;
+      /* text styling to make quotes stand out */
+      font-size: 60px;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .tip {
+      background: #FAFAFA;
+      padding: 10px;
+      align-self: start;
+    }
+
+    .tip-left {
+      grid-column: 1 / span 1;
+      text-align: right;
+      border-right: 2px solid var(--yellow);
+    }
+
+    .tip-right {
+      grid-column: span 1 / -1;
+      border-left: 2px solid var(--yellow);
+    }
   </style>
 
 </body>

@@ -27,6 +27,7 @@
   - [Reacreating Codepen](#reacreating-codepen)
   - [Bootstrappy Grid with CSS Variables](#bootstrappy-grid-with-css-variables)
   - [Responsive Website](#responsive-website)
+  - [Full Bleed Blog Layout](#full-bleed-blog-layout)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2393,3 +2394,51 @@ Typical website with hero image, calls to action on the side, responsive navigat
 Use grid template areas to name sections, useful for responsive layout.
 
 Note that `::before` and `::after` psuedo elements are considered grid items.
+
+## Full Bleed Blog Layout
+
+[Example](25%20-%20Full%20Bleed%20Blog%20Layout/full-bleed-blog-START.html)
+
+In addition to app layout, CSS Grid also useful for laying out text. eg - tips to right or left, imags that "full bleed" - width goes past where text is.
+
+Approach: Make `post` class a grid with 3 columns, where content in center taking up the most space. Some images will span all 3 columns across.
+
+Full bleed image:
+
+```css
+.post > figure {
+  margin: 0;
+  grid-column: 1 / -1;
+}
+
+.post figcaption {
+  font-size: 10px;
+}
+```
+
+![blog full bleed image](assets/images/blog-full-bleed-image.png "blog full bleed image")
+
+Tips right and left:
+
+```css
+.tip {
+  background: #FAFAFA;
+  padding: 10px;
+  align-self: start;
+}
+
+.tip-left {
+  grid-column: 1 / span 1;
+  text-align: right;
+  border-right: 2px solid var(--yellow);
+}
+
+.tip-right {
+  grid-column: span 1 / -1;
+  border-left: 2px solid var(--yellow);
+}
+```
+
+![blog tip right](assets/images/blog-tip-right.png "blog tip right")
+
+![blog tip left](assets/images/blog-tip-left.png "blog tip left")
